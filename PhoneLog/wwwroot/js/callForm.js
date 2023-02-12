@@ -7,6 +7,7 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
     $("#loginButton").click(async (e) => {
         var username = $("#usernameTF").val();
         var password = $("#passwordTF").val();
+        //test for ignore
         //check if its valid
         try {
             let testBody;            
