@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "appInsights1": {
+      "type": "appInsights"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:TheFactory_Context",
+      "dynamicId": null
+    }
+  }
+}

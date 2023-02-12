@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchases Logs</title>
+    <meta charset="utf-8" />
+    <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/homePage.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light" style="background-color: #21201e">
+        <!--<a class="navbar-brand mx-3" href="#">The Factory</a>-->
+        <img id="navImg" src="resources/factory_website_logo.png" />
+        <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <!--<li class="nav-item">
+                    <a class="nav-link" href="/loglist.html">LogList</a>
+                </li>-->
+
+            </ul>
+            <div id="searchNav" style="display:none">
+                <div>Search for Supplier &nbsp;</div>
+                <form>
+                    <input class="form-control" type="search" placeholder="Search" id="srch" aria-label="Search"
+                           style="width:10vw;margin-right:5vw;">
+                </form>
+            </div>
+
+
+        </div>
+    </nav>
+
+
+
+    <div id="loginContainer">
+
+        <div class="imgcontainer">
+            <img src="resources/factoryBigLogo.png" alt="Avatar" class="avatar">
+        </div>
+
+        <div class="container">
+            <label for="username"><b>Username</b></label>
+            <input type="text" id="usernameTF" placeholder="Enter Username" name="uname" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" id="passwordTF" placeholder="Enter Password" name="psw" required>
+
+            <div id="LoginStatus"></div>
+
+            <button id="loginButton">Login</button>
+
+
+        </div>
+    </div>
+
+
+    <div id="userList" style="display:none">
+
+        <div id="buttonDiv">
+            <!-- depending on the account, there will be different buttons. JS Handles It  -->
+        </div>
+
+        <div class="justify-content-center align-items-center row mt-5 ml-1">
+            <div class="col-12 text-center p-3"><h2>Your Purchases</h2></div>
+            <div class="list-group col-10" id="logsList" style="height:45vh;">
+            </div>
+        </div>
+
+        <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Purchase Form</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">Supplier:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter supplier" id="TextBoxSupplier"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Quantity:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter quantity" id="TextBoxQuantity"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-10">ProductPrice:</div>
+                                        <small class="w-100">Before tax</small>
+
+                                        <div class="col-5">
+                                            <input type="number" placeholder="Enter price" id="TextBoxPrice"
+                                                   class="form-control" />
+                                        </div>
+
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-10">Include Ontario Tax:</div>
+                                        <div class="col-10">
+                                            <input type="checkbox" id="includeTax" />
+                                            <label class="form-check-label" for="flexCheckChecked">Yes</label>
+
+                                            <input type="checkbox" id="noTax" />
+                                            <label class="form-check-label" for="flexCheckChecked">No</label>
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-4">Reference:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter reference" id="TextBoxReference"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-4">Total:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Total" id="TextBoxTotalAfterTax"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-10">Needs Approval:</div>
+                                        <div class="col-10">
+                                            <input type="checkbox" id="needApproval" />
+                                            <label class="form-check-label" for="flexCheckChecked">Yes</label>
+
+                                            <input type="checkbox" id="noApproval" />
+                                            <label class="form-check-label" for="flexCheckChecked">No</label>
+                                        </div>
+                                    </div>
+                                    <br />
+
+
+
+
+                                </div>
+                                <div class="card-footer text-center">
+                                    <input type="button" class="btn btn-secondary" value="Submit" id="SubmitForm" />
+                                    <div id="modalstatus" class="text-left mt-3 mb-2"></div>
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myAddModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Add user</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-4">Name:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter employee name" id="TextBoxName"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-4">Username:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter username" id="TextBoxUsername"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Password:</div>
+                                        <div class="col-8">
+                                            <input type="password" placeholder="Enter password" id="TextBoxUserPassword"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">Permission:</div>
+                                    <select class="col-8" name="access" id="accountAccess">
+                                        <option value="Default">Default</option>
+                                        <option value="Administrator">Administrator</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-center">
+                            <div id="addUserStatus" class="text-left mt-3 mb-2"></div>
+                            <input type="button" class="btn btn-secondary" value="Add" id="addUsername" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myUpdateModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Recover Account</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">Username:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter username" id="Recover_TextBoxUsername"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">New Password:</div>
+                                        <div class="col-8">
+                                            <input type="password" placeholder="Enter password" id="Recover_TextBoxUserPassword"
+                                                   class="form-control" />
+                                        </div>
+                                        <div class="col-4">Confirm New Password:</div>
+                                        <div class="col-8">
+                                            <input type="password" placeholder="Enter password" id="Recover_TextBoxUserPassword_confirm"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-center">
+                            <div id="updateStatus" class="text-left mt-3 mb-2"></div>
+                            <input type="button" class="btn btn-secondary" value="Update" id="recoverUser" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal to show more information regaring o the log clicked -->
+        <div class="modal fade" id="logModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Log Info</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    Log Information
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">supplier</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_supplier"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">buyer</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_buyer"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">reference</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_reference"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">quantity</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_quantity"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">productPrice</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_productPrice"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">tax</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_tax"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">net</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_net"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">total</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_total"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Status</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_status"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Approved by</div>
+                                        <div class="col-8">
+                                            <input type="text" id="view_approvedBy"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="card-footer text-center">
+
+
+
+
+                                    </div>
+
+                                    <div id="updateStatusDiv">
+                                        <!--<div class="card-footer text-center">
+                                            <label for="formStatus">Pending order</label>
+
+
+                                            <select name="statusForForm" id="formStatusUpdate">
+                                                <option></option>
+
+                                                <option value="Approved">Approved</option>
+                                                <option value="Denied">Denied</option>
+                                            </select>
+                                            <input type="button" class="btn btn-secondary" value="Update Status" id="actionbutton" />
+                                            <div id="modalstatus" class="text-left mt-3 mb-2"></div>
+
+                                        </div>-->
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="card-footer text-center">
+                            <input type="button" class="btn btn-secondary" value="Update" id="updatebutton" />
+                            <div id="modalstatus" class="text-left mt-3 mb-2"></div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="lib/js/jquery.min.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="lib/js/jquery.validate.min.js"></script>
+    <script src="js/purchaseForm.js"></script>
+
+</body>
+</html>

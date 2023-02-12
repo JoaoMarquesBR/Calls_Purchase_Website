@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Call Logs</title>
+    <meta charset="utf-8" />
+    <link href="lib/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/homePage.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light" style="background-color: #21201e">
+        <!--<a class="navbar-brand mx-3" href="#">The Factory</a>-->
+        <img id="navImg" src="resources/factory_website_logo.png" />
+        <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        
+
+
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav mr-auto">
+                <!--<li class="nav-item">
+                    <a class="nav-link" href="/loglist.html">LogList</a>
+                </li>-->
+
+            </ul>
+            <div id="searchNav" style="display:none">
+                <div>Search for Supplier &nbsp;</div>
+                <form>
+                    <input class="form-control" type="search" placeholder="Search" id="srch" aria-label="Search"
+                           style="width:10vw;margin-right:5vw;">
+                </form>
+            </div>
+
+
+        </div>
+    </nav>
+
+
+
+    <div id="loginContainer">
+
+        <div class="imgcontainer">
+            <img src="resources/factoryBigLogo.png" alt="Avatar" class="avatar">
+        </div>
+
+        <div class="container">
+            <label for="username"><b>Username</b></label>
+            <input type="text" id="usernameTF" placeholder="Enter Username" name="uname" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" id="passwordTF" placeholder="Enter Password" name="psw" required>
+
+            <div id="LoginStatus"></div>
+
+            <button id="loginButton">Login</button>
+
+
+        </div>
+    </div>
+
+
+    <div id="userList" style="display:none">
+
+        <div id="buttonDiv">
+            <!--<button id="AddUser" data-toggle="addModal" data-target="addModal">Add Account</button>-->
+            <!-- <button id="CreateForm" data-toggle="myModal" data-target="myModal">Add Call Log</button>-->
+        </div>
+
+        <div class="justify-content-center align-items-center row mt-5 ml-1">
+            <div class="col-12 text-center p-3"><h2>Your log form</h2></div>
+            <div class="list-group col-10" id="logsList" style="height:45vh;">
+            </div>
+        </div>
+
+        <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Call Log</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">Company:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter company" id="TextBoxCompany"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Rep:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter rep" id="TextBoxRep"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Call Length:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter call length" id="TextBoxLength"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Notes:</div>
+                                        <div class="col-8">
+                                            <textarea maxlength="200" type="text" style="height: 120px; width: 100%" placeholder="Enter call description" id="TextBoxNote"
+                                                      class="form-control"></textarea>
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-4">FollowUp:</div>
+                                        <div class="col-8">
+                                            <input type="checkbox" id="NeedFollowUp" />
+                                            <label class="form-check-label" for="flexCheckChecked">Yes</label>
+
+                                            <input type="checkbox" id="NoNeedFollowUp" />
+                                            <label class="form-check-label" for="flexCheckChecked">No</label>
+                                        </div>
+                                    </div>
+
+                                    <br />
+
+                                    <div class="row">
+                                        <div class="col-4">Issue Solved:</div>
+                                        <div class="col-8">
+                                            <input type="checkbox" id="issueSolved" />
+                                            <label class="form-check-label" for="flexCheckChecked">Yes</label>
+
+                                            <input type="checkbox" id="issueNotSolved" />
+                                            <label class="form-check-label" for="flexCheckChecked">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <input type="button" class="btn btn-secondary" value="Submit" id="SubmitForm" />
+                            <div id="modalstatus" class="text-left mt-3 mb-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myAddModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Add user</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+
+                                <div class="card-body">
+
+
+                                    <div class="row">
+                                        <div class="col-4">Name:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter employee name" id="TextBoxName"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-4">Username:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter username" id="TextBoxUsername"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row">
+                                        <div class="col-4">Password:</div>
+                                        <div class="col-8">
+                                            <input type="password" placeholder="Enter password" id="TextBoxUserPassword"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">Permission:</div>
+                                    <select class="col-8" name="access" id="accountAccess">
+                                        <option value="Default">Default</option>
+                                        <option value="Administrator">Administrator</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-center">
+                            <div id="addUserStatus" class="text-left mt-3 mb-2"></div>
+                            <input type="button" class="btn btn-secondary" value="Add" id="addUsername" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myUpdateModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Recover Account</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">Username:</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="Enter username" id="Recover_TextBoxUsername"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">New Password:</div>
+                                        <div class="col-8">
+                                            <input type="password" placeholder="Enter password" id="Recover_TextBoxUserPassword"
+                                                   class="form-control" />
+                                        </div>
+                                        <div class="col-4">Confirm New Password:</div>
+                                        <div class="col-8">
+                                            <input type="password" placeholder="Enter password" id="Recover_TextBoxUserPassword_confirm"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-center">
+                            <div id="updateStatus" class="text-left mt-3 mb-2"></div>
+                            <input type="button" class="btn btn-secondary" value="Update" id="recoverUser" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal to show more information regaring o the log clicked -->
+        <div class="modal fade" id="logModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">Log Info</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mx-4 my-4">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    Log Information
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4">CompanyName</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="enter title" id="view_companyName"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Representetive</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="enter first name" id="view_repName"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Employee</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="enter last name" id="view_empName"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">callDate</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="enter last name" id="view_callDate"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">callLength</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="email address" id="view_callLength"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">followUp</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="email address" id="view_followUp"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">IssueSolved</div>
+                                        <div class="col-8">
+                                            <input type="text" placeholder="email address" id="view_issueSolved"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">Description</div>
+                                        <div class="col-8">
+                                            <!--<input type="text" style="height: 90px;" placeholder="email address" id="view_description"
+                                                   class="form-control" />-->
+                                            <textarea style="height: 90px; width: 100%" placeholder="description" id="view_description"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="card-footer text-center">
+                            <input type="button" class="btn btn-secondary" value="Update" id="updatebutton" />
+                            <div id="modalstatus" class="text-left mt-3 mb-2"></div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="lib/js/jquery.min.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="lib/js/jquery.validate.min.js"></script>
+    <script src="js/callForm.js"></script>
+
+
+</body>
+</html>
