@@ -331,13 +331,17 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
                 <div class="col-2 h6">Call Length</div>
                 <div class="col-2 h6">Needs follow up</div>
                 <div class="col-2 h6">Solved</div>
+                <div class="col-2 h6">Employee</div>
+                <div class="col-2 h6">Case Number</div>
+
+
 `);
         div.appendTo($("#logsList"));
 
         usealldata ? sessionStorage.setItem("allLogs", JSON.stringify(data)) : console.log("");
 
         //sessionStorage.setItem("allLogs", JSON.stringify(data));
-        data.forEach(form => {
+        data.forEach(async form => {
             var formatDate = new Date((form.callDate)); 
 
 
@@ -346,12 +350,21 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
             var yyyy = formatDate.getFullYear();
             formatDate = mm + '/' + dd + '/' + yyyy;
 
+            let username
+            let response = await fetch(`api/login/getUserByID/${form.accountID}`)
+            if (response.ok) {
+                let payload = await response.json(); // th
+                username = payload.accountName
+            }
+
             btn = $(`<button class="list-group-item row d-flex" id="${form.formID}">`);
             btn.html(`<div class="col-2" id="logCompany${form.companyName}">${form.companyName}</div>
                         <div class="col-2" id="logDate${formatDate}">${formatDate}</div>
                         <div class="col-2" id="logLength${form.callLength}">${form.callLength}</div>
                         <div class="col-2" id="logFollowUp${form.followUp}">${form.followUp}</div>
                         <div class="col-2" id="logIssue${form.issueSolved}">${form.issueSolved}</div>
+                        <div class="col-2" id="logIssue${username}">${username}</div>
+                        <div class="col-2" id="logIssue${form.id}">${form.id}</div>
                 `
             );
             btn.appendTo($("#logsList"));
