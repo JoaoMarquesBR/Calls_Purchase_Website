@@ -52,6 +52,46 @@ namespace DatabaseDAL
             return forms;
         }
 
+        public async Task<Form> getFormByID(int formID)
+        {
+            Form? selectedAcc;
+            try
+            {
+
+                TheFactory_Context _db = new();
+                selectedAcc = await _db.Forms.FirstOrDefaultAsync(acc => acc.formID == formID);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem in " + GetType().Name + " " +
+                MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
+                throw;
+            }
+            return selectedAcc!;
+        }
+
+        public async Task<int>updateDesc(Form form)
+        {
+
+            try
+            {
+                TheFactory_Context _db = new();
+                Form? currentStudent = await _db.Forms.FirstOrDefaultAsync(stu => stu.formID == form.formID);
+                _db.Entry(currentStudent!).OriginalValues["callDesc"] = form.callDesc;
+                _db.Entry(currentStudent!).CurrentValues.SetValues(form);
+                if (await _db.SaveChangesAsync() == 1)
+                {
+                    return 1;
+                };
+                return -1;
+            }catch(Exception e)
+            {
+                throw;
+            }
+
+        }
+
     }
 
 

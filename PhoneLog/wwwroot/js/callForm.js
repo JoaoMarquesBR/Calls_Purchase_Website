@@ -22,7 +22,6 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
             let myData = await response.json();
             myData = JSON.stringify(myData);
 
-
             let getPermission = await fetch(`api/login/getUserByID/${myData}`)
             let permission = null
             if (getPermission.ok) {
@@ -31,15 +30,10 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
                 console.log("perm "+ permission)
             }
             sessionStorage.setItem("Permission", permission)
-
             $("#searchNav").show()
 
-            
          if (myData >=0) {
              sessionStorage.setItem("accountID", myData)
-
-
-
              $("#loginContainer").hide();
              $("#userList").show(); 
              getAll("");
@@ -331,8 +325,8 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
                 <div class="col-2 h6">Call Length</div>
                 <div class="col-2 h6">Needs follow up</div>
                 <div class="col-2 h6">Solved</div>
-                <div class="col-2 h6">Employee</div>
-                <div class="col-2 h6">Case Number</div>
+                <div class="col-1 h6">Employee</div>
+                <div class="col-1 h6">Case Number</div>
 
 
 `);
@@ -358,13 +352,13 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
             }
 
             btn = $(`<button class="list-group-item row d-flex" id="${form.formID}">`);
-            btn.html(`<div class="col-2" id="logCompany${form.companyName}">${form.companyName}</div>
+            btn.html(`<div class="col-2 " id="logCompany${form.companyName}">${form.companyName}</div>
                         <div class="col-2" id="logDate${formatDate}">${formatDate}</div>
                         <div class="col-2" id="logLength${form.callLength}">${form.callLength}</div>
                         <div class="col-2" id="logFollowUp${form.followUp}">${form.followUp}</div>
                         <div class="col-2" id="logIssue${form.issueSolved}">${form.issueSolved}</div>
-                        <div class="col-2" id="logIssue${username}">${username}</div>
-                        <div class="col-2" id="logIssue${form.id}">${form.id}</div>
+                        <div class="col-1" id="logIssue${username}">${username}</div>
+                        <div class="col-1" id="logIssue${form.formID}">${form.formID}</div>
                 `
             );
             btn.appendTo($("#logsList"));
@@ -378,7 +372,26 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
 
     }; // buildStudefirstntList
 
+    $("#cardButton").click(async (e) => {
+        let formID = sessionStorage.getItem("OpenLog")
+        let newDesc = $("#view_description").val()
+        let response 
 
+        let responseUpdate = await fetch(`api/form/${newDesc},${formID}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            body: JSON.stringify(response),
+        });
+        if(responseUpdate.ok){
+            let data = await responseUpdate.json();
+            if (data == 1) {
+                window.alert("Description has been updated")
+            } else {
+                window.alert("There were no changes to be made")
+            }
+        }
+
+    })
 
     $("#srch").keyup(() => {
         let alldata = JSON.parse(sessionStorage.getItem("allLogs"));
@@ -425,7 +438,17 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
                 $("#view_followUp").val(log.followUp);
                 $("#view_issueSolved").val(log.issueSolved);
 
-                $("#view_description").attr('readonly', true);
+
+                let accountID = sessionStorage.getItem("accountID");
+                if (accountID != log.accountID) {
+                    $("#view_description").attr('readonly', false);
+                } else {
+                    $("#cardButton").empty();
+                    buttonDiv = $(`<button id="updateDesc">Update</button>`)
+                    sessionStorage.setItem("OpenLog",log.formID)
+                    buttonDiv.appendTo("#cardButton")
+                }
+
                 $("#view_companyName").attr('readonly', true);
                 $("#view_repName").attr('readonly', true);
                 $("#view_empName").attr('readonly', true);

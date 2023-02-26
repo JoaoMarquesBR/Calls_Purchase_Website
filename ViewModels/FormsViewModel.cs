@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -113,6 +114,64 @@ namespace ViewModels
                 Debug.WriteLine(e.Message);
             }
             return allVms;
+        }
+
+
+        public async Task<Form>getOneByID(int formID)
+        {
+            try
+            {
+                FormsViewModel viewmodel = new() { formID = formID };
+                Form form = await daoForm.getFormByID(formID);
+
+                if (form == null)
+                {
+                    return null;//ID not found
+                }
+                else
+                {
+                    return form; ; //id found and returns user_name
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem in " + GetType().Name + " " +
+                MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
+                return null; // something went wrong
+            }
+        }
+
+        public async Task<int> Update(Form formOBJ)
+        {
+            int updatestatus;
+            try
+            {
+                Form stu = new()
+                {
+                    formID = formOBJ.formID,
+                    accountID = formOBJ.accountID,
+                    companyName = formOBJ.companyName,
+                    repName = formOBJ.repName,
+                    callDate = formOBJ.callDate,
+                    timeLength = formOBJ.timeLength,
+                    callDesc = formOBJ.callDesc,
+                    issueSolved = formOBJ.issueSolved,
+                    followUp = formOBJ.followUp
+                };
+
+                updatestatus = -1;
+                updatestatus = (int)await daoForm.updateDesc(stu);
+                return updatestatus;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem in " + GetType().Name + " " +
+                MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
+                throw;
+            }
+
+            return updatestatus;
         }
 
     }

@@ -1,5 +1,7 @@
 ﻿
+using DatabaseDAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Diagnostics;
 using System.Reflection;
 using ViewModels;
@@ -11,7 +13,7 @@ namespace TheFactory_PhoneForm.Controllers
     public class FormController : ControllerBase
     {
 
-   
+
         [HttpPost]
         public async Task<ActionResult> Post(FormsViewModel viewmodel)
         {
@@ -39,7 +41,7 @@ namespace TheFactory_PhoneForm.Controllers
             {
                 FormsViewModel viewmodel = new();
                 List<FormsViewModel> allForms = await viewmodel.GetAll(accountID);
-                return Ok(allForms  );
+                return Ok(allForms);
             }
             catch (Exception ex)
             {
@@ -49,6 +51,30 @@ namespace TheFactory_PhoneForm.Controllers
             }
         }
 
+        [HttpPut("{newDesc},{formID}")]
+        public async Task<int> Put(string newDesc, int formID)
+        {
+            try
+            {
+                FormsViewModel view = new();
+                DAL.Form formOBJ = await view.getOneByID(formID);
+                formOBJ.callDesc = newDesc;
+
+                int status = await view.Update(formOBJ);
+
+                if(status != -1){
+                    return 1;
+                }
+
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem in " + GetType().Name + " " +
+                MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
+                return -1; // something went wrong
+            }
+        }
 
     }
 }
