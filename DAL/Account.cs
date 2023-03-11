@@ -10,11 +10,13 @@ public partial class Account : TheFactory_Entity
 
     public string? groupPermission { get; set; }
 
-    public string? accountName { get; set; }
+    public string? email { get; set; }
 
-    public string? username { get; set; }
+    public string accountName { get; set; } = null!;
 
-    public string? password { get; set; }
+    public string username { get; set; } = null!;
+
+    public string password { get; set; } = null!;
 
     public virtual ICollection<Form> Forms { get; } = new List<Form>();
 

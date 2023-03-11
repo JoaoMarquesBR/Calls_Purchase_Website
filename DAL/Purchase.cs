@@ -8,7 +8,7 @@ public partial class Purchase : TheFactory_Entity
 {
     public int Purchase_ID { get; set; }
 
-    public int? accountID { get; set; }
+    public int accountID { get; set; }
 
     public DateTime purchaseDate { get; set; }
 
