@@ -18,6 +18,8 @@ public class ProfilesViewModels
 
     public string? accountName { get; set; }
 
+    public string? accountEmail { get; set; }
+
     public string? accountPassword { get; set; }
 
     public string? groupPermission { get; set; }
@@ -92,9 +94,10 @@ public class ProfilesViewModels
             Account newAccount = new()
             {
                 username = accountName,
-                password = accountPassword  ,
-                accountName = employeeName, 
-                groupPermission = groupPermission
+                password = accountPassword,
+                accountName = employeeName,
+                groupPermission = groupPermission,
+                email = accountEmail
             };
             accountID = await _dao.addAccount(newAccount);
             return accountID;
@@ -137,7 +140,8 @@ public class ProfilesViewModels
                     accountName = stu.username,
                     accountPassword = stu.password,
                     employeeName = stu.accountName,
-                    groupPermission = stu.groupPermission
+                    groupPermission = stu.groupPermission,
+                    accountEmail = stu.email
                 };
                
                 allVms.Add(stuVm);
@@ -160,6 +164,7 @@ public class ProfilesViewModels
             Account acc = new Account();
             acc.accountID = accountID;
             acc.username = accountName;
+            acc.email = accountEmail;
             acc.password = accountPassword;
             acc.groupPermission = groupPermission;
 

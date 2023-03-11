@@ -90,12 +90,12 @@ namespace TheFactory_PhoneForm.Controllers
 
 
         //addAccount
-        [HttpPost("{username},{password},{name},{permissionGroup}")]
-        public async Task<ActionResult> addAcount(string username, string password,string name,string permissionGroup)
+        [HttpPost("{username},{password},{name},{permissionGroup},{email}")]
+        public async Task<ActionResult> addAcount(string username, string password,string name,string permissionGroup,string email)
         {
             try
             {
-                ProfilesViewModels viewmodel = new() { accountName = username, accountPassword = password,employeeName = name, groupPermission = permissionGroup  };
+                ProfilesViewModels viewmodel = new() { accountName = username, accountPassword = password,employeeName = name, groupPermission = permissionGroup ,accountEmail = email };
                 int retVal = await viewmodel.AddAccount();
 
                 if (retVal >= 0)

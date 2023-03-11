@@ -23,18 +23,21 @@ public partial class TheFactory_Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-          => optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectModels;Database=TheFactoryWebSite;Persist Security Info=True;Encrypt=true;Trusted_Connection=True;");
+        => optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectModels;Database=TheFactoryWebSite;Persist Security Info=True;Encrypt=true;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.accountID).HasName("PK__Account__F267253E52A7084C");
+            entity.HasKey(e => e.accountID).HasName("PK__Account__F267253E500684FD");
 
             entity.ToTable("Account");
 
             entity.Property(e => e.accountName)
-                .HasMaxLength(20)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.email)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.groupPermission)
                 .HasMaxLength(20)
@@ -49,7 +52,7 @@ public partial class TheFactory_Context : DbContext
 
         modelBuilder.Entity<Form>(entity =>
         {
-            entity.HasKey(e => e.formID).HasName("PK__Form__51BCB7CB3A63B8B1");
+            entity.HasKey(e => e.formID).HasName("PK__Form__51BCB7CB708D91F1");
 
             entity.ToTable("Form");
 
@@ -80,7 +83,7 @@ public partial class TheFactory_Context : DbContext
 
         modelBuilder.Entity<Purchase>(entity =>
         {
-            entity.HasKey(e => e.Purchase_ID).HasName("PK__Purchase__543E6DA3BDAE2CBE");
+            entity.HasKey(e => e.Purchase_ID).HasName("PK__Purchase__543E6DA3270D302A");
 
             entity.ToTable("Purchase");
 
@@ -97,6 +100,7 @@ public partial class TheFactory_Context : DbContext
 
             entity.HasOne(d => d.account).WithMany(p => p.Purchases)
                 .HasForeignKey(d => d.accountID)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Purchase_Buyer_ID");
         });
 

@@ -78,7 +78,8 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
         var password = $("#TextBoxUserPassword").val();
 
         var permissionGroup = $("#accountAccess").val();
-        
+        var email = $("#TextBoxUserEmail").val();
+
         //check if its valid
         try {
 
@@ -106,7 +107,7 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
                 } else {
                     //username can be used ;) 
                     let testBody
-                    let response = await fetch(`api/login/${username},${password},${name},${permissionGroup}`, {
+                    let response = await fetch(`api/login/${username},${password},${name},${permissionGroup},${email}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json; charset=utf-8" },
                         body: JSON.stringify(testBody),

@@ -56,7 +56,7 @@ namespace ViewModels
 
                 Purchase myPurchase = new()
                 {
-                    accountID = accountID,
+                    accountID = (int)accountID,
                     supplier = supplier,
                     quantity = quantity,
                     productPrice = productPrice,
@@ -157,7 +157,7 @@ namespace ViewModels
                 Purchase p = new Purchase();
 
                 p.Purchase_ID = Purchase_ID;
-                p.accountID = accountID;
+                p.accountID = (int)accountID;
                 p.purchaseDate = purchaseDate;
                 p.quantity = quantity;
                 p.productPrice = productPrice;  
