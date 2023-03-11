@@ -195,7 +195,19 @@ public class ProfilesViewModels
 
     }
 
+    public async Task<List<Account>> getAccountByPermission(string permission)
+    {
+        List<Account> acc;
+        acc = await _dao.getAccountByGroup(permission);
 
-
+        if (acc == null)
+        {
+            return null;
+        }
+        else
+        {
+            return acc;
+        }
+    }
 
 }

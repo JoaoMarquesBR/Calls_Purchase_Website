@@ -9,10 +9,17 @@
 	<!--<GeneratePackageOnBuild>True</GeneratePackageOnBuild>-->
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\Controllers\AccountsController.cs" />
+    <Content Remove="wwwroot\Controllers\EmailController.cs" />
+  </ItemGroup>
+
 
 
 	<ItemGroup>
+    <Compile Include="wwwroot\Controllers\EmailController.cs" />
     <Compile Include="wwwroot\Controllers\FormController.cs" />
+    <Compile Include="wwwroot\Controllers\AccountsController.cs" />
     <Compile Include="wwwroot\Controllers\LoginController.cs" />
     <Compile Include="wwwroot\Controllers\PurchaseController.cs" />
   </ItemGroup>

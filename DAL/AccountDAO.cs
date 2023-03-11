@@ -1,6 +1,7 @@
 ﻿using DAL;
 using ExercisesDAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -148,6 +149,24 @@ namespace DatabaseDAL
                 TheFactory_Context _db = new();
                 selectedAcc = await _db.Accounts.FirstOrDefaultAsync(acc => acc.accountID == accountID);
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Problem in " + GetType().Name + " " +
+                MethodBase.GetCurrentMethod()!.Name + " " + ex.Message);
+                throw;
+            }
+            return selectedAcc!;
+        }
+
+        public async Task<List<Account>> getAccountByGroup(string group)
+        {
+            List<DAL.Account> selectedAcc = null!;
+            try
+            {
+
+                TheFactory_Context _db = new();
+                selectedAcc = await _db.Accounts.Where(acc => acc.groupPermission == group).ToListAsync();
             }
             catch (Exception ex)
             {

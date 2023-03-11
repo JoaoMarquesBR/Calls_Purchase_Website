@@ -18,8 +18,10 @@ namespace TheFactory_PhoneForm.Controllers
         {
             try
             {
-                Console.WriteLine("Viel model as \n\n\n\n\n\n\n\n\n\n");
-                await viewmodel.addPurchase();
+                Console.WriteLine("Viel model as "+ viewmodel.ToString());
+                //await viewmodel.addPurchase();
+                //EmailViewModels emailModel = new EmailViewModels();
+                //await emailModel.sendEmail("Alex", viewmodel);
                 return viewmodel.Purchase_ID >= 0
                 ? Ok(new { msg = "Form " + viewmodel.Purchase_ID + " added!" })
                 : Ok(new { msg = "Form " + viewmodel.Purchase_ID + " not added!" });

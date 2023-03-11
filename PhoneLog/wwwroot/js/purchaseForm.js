@@ -44,6 +44,19 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
             console.log("error " + error)
         }
 
+        let getAdmins = await fetch(`api/Accounts`);
+        if (getAdmins.ok) {
+            let payload = await getAdmins.json(); // this returns a promise, so we await it
+            console.log("payLoad is " + JSON.stringify(payload))
+
+            payload.forEach(async admin => {
+                btn = $(` <option value="${admin.username}">${admin.accountName}</option>`);
+                btn.appendTo($("#emailReceiverOption"));
+
+            }); // 
+        }
+
+
 
     });
 
@@ -205,10 +218,10 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
         let accountID = sessionStorage.getItem("accountID");
 
         //check approval checkbox
-        if (document.getElementById('needApproval').checked == false && document.getElementById('noApproval').checked ==false ) {
+        if (document.getElementById('needApproval').checked == false && document.getElementById('noApproval').checked == false) {
             $("#modalstatus").text("Approval type needs to be selected")
-         
-            return    
+
+            return
         }
 
         let status
@@ -219,19 +232,19 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
         myPurchase.quantity = $("#TextBoxQuantity").val();
         myPurchase.productPrice = $("#TextBoxPrice").val();
         myPurchase.reference = $("#TextBoxReference").val();
-        myPurchase.net = myPurchase.productPrice * myPurchase.quantity;       
-     
+        myPurchase.net = myPurchase.productPrice * myPurchase.quantity;
+
         if (document.getElementById('includeTax').checked) {
             myPurchase.tax = 1.13
             myPurchase.totalAfterTax = myPurchase.tax * myPurchase.net
         } else if (document.getElementById('noTax').checked) {
             myPurchase.tax = 0
             myPurchase.totalAfterTax = myPurchase.net
-            }else{
-                    checkBoxNotMaked = false;
+        } else {
+            checkBoxNotMaked = false;
         }
 
-        if (document.getElementById('noApproval').checked && myPurchase.totalAfterTax<200) {
+        if (document.getElementById('noApproval').checked && myPurchase.totalAfterTax < 200) {
             status = "approved"
             myPurchase.accountID_approver = accountID
 
@@ -249,10 +262,24 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
             },
             body: JSON.stringify(myPurchase)
         });
+
+        if (document.getElementById('needEmail').checked == true) {
+            let emailSelected = $("#emailReceiverOption").val()
+
+            let sendEmail = await fetch(`api/Email/${emailSelected}`, {
+                method: "post",
+                headers: {
+                    "content-type": "application/json; charset=utf-8"
+                },
+                body: JSON.stringify(myPurchase)
+            });
+        }
+
         console.log(JSON.stringify(myPurchase))
         $("#myModal").modal("toggle");
         getAll("");
 
+        $("#emailReceiverOption").val("Select One")
         $("#TextBoxSupplier").val("")
         $("#TextBoxQuantity").val("")
         $("#TextBoxPrice").val("")
@@ -294,6 +321,16 @@ $(() => { // main jQuery routine - executes every on page load, $ is short for j
 
     $("#noApproval").click(() => {
         $("#needApproval").prop("checked", false);
+        updateTotal()
+    })
+
+    $("#needEmail").click(() => {
+        $("#noEmail").prop("checked", false);
+        updateTotal()
+    });
+
+    $("#noEmail").click(() => {
+        $("#needEmail").prop("checked", false);
         updateTotal()
     })
 
